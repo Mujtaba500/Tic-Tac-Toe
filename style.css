@@ -38,7 +38,7 @@ body {
     background-color: var(--background-color);
 }
 
-#main > h2 {
+#heading{
     font-size: 40px;
     font-weight: 100;
 }
@@ -57,6 +57,13 @@ body {
 #field > div {
     background-color: var(--field-background-color);
     border: 1px solid black;
+    font-size: 110px;
+    text-align: center;
+    margin: 0;
+}
+
+#field > div > div > p {
+    margin: 10px;
 }
 
 #field > div:hover {
@@ -77,7 +84,7 @@ body {
     border-radius: 6px;
 }
 
-#restart:hover {
+#restart-btn:hover {
   background-color: #3b4b57;
   cursor: pointer;
 }
