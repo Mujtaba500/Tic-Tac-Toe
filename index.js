@@ -1,4 +1,6 @@
 let cells = Array.from(document.querySelectorAll('.cell'))
+let heading = document.querySelector('#heading');
+let restartBtn = document.getElementById('restart-btn')
 let player = 'X'
 let gameEnd = false
 
@@ -12,7 +14,6 @@ const displayController = (e) => {
     let row = cellId.slice(0,4);
     board.boardUpdate(row, id, player)
     let cell = document.getElementById(`${cellId}`);
-    let heading = document.querySelector('#heading');
     if(cell.innerHTML !== ''){
         return;
     }
@@ -55,6 +56,7 @@ const gameBoard = () => {
         boardRow2,
         boardRow3
     ] 
+    let winner = ''
     const boardUpdate = (row, id, player) => {
       if(row == 'row1'){
          boardRow1[id] = player;
@@ -66,9 +68,9 @@ const gameBoard = () => {
     }
     const checkForWin = () => {
         // Check rows for win
-        let winner = ''
         let result = ''
         let rowUnderCheck = []
+        winner = ''
          for(let i = 0; i < RowsArr.length ; i++){
             if(result === 'XXX' || result === 'OOO'){
                 winner = rowUnderCheck[0];
@@ -86,6 +88,7 @@ const gameBoard = () => {
                  }
              }
          }
+         
 
          //Check columns for win
          for(let i = 0; i < RowsArr.length; i++){
@@ -104,6 +107,7 @@ const gameBoard = () => {
                  }
             }
          }
+         
 
          //check diagnol
          result = ''
@@ -115,6 +119,8 @@ const gameBoard = () => {
             winner = RowsArr[i][i] ;
          }
          }
+
+         
 
          // check anti-diagnol
          result = ''
@@ -131,6 +137,7 @@ const gameBoard = () => {
          }
 
          //check if its a tie
+         if( winner === ''){
          let arraysPassed = 0
          let pass = false
          for(let i = 0; i < RowsArr.length; i++){
@@ -148,10 +155,37 @@ const gameBoard = () => {
          if(arraysPassed === 3){
             winner = 'noone'
          }
+        }
 
          return winner
     }
-    return {boardUpdate, checkForWin}
+
+    const gameRestart = () => {
+        boardRow1 = ['', '', ''];
+        boardRow2 = ['', '', ''];
+        boardRow3 = ['', '', ''];
+        RowsArr = [
+            boardRow1,
+            boardRow2,
+            boardRow3
+        ] 
+
+    }
+
+    return {boardUpdate, checkForWin, gameRestart}
 }
 
 const board = gameBoard()
+
+
+const restartGame = () => {
+     cells.forEach((cell) => {
+        cell.innerHTML = ''
+     })
+     player = 'X'
+     heading.innerHTML = `<h2 id="heading">Player ${player}'s turn</h2>`;
+     gameEnd = false;
+     board.gameRestart()
+
+}
+restartBtn.addEventListener('click', restartGame)
